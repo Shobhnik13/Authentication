@@ -4,6 +4,7 @@ import (
 	"auth/config"
 	"auth/routes"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 
@@ -21,8 +22,13 @@ func main() {
 	// extracting port from env
 	port := os.Getenv("PORT")
 
-	// connecting db
-	config.ConnectDB()
+	// connecting db 
+	err = config.ConnectDB()
+	if err != nil {
+		fmt.Println("DB connection error:", err)
+		return
+	}
+	log.Println("DB connected now starting the server...")
 
 	// initalize router
 	r := mux.NewRouter()
