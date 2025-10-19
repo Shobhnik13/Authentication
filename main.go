@@ -1,14 +1,28 @@
 package main
 
 import (
+	"auth/config"
 	"auth/routes"
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	// loading env
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("Error loading .env file")
+	}
+
+	// extracting port from env
+	port := os.Getenv("PORT")
+
+	// connecting db
+	config.ConnectDB()
 
 	// initalize router
 	r := mux.NewRouter()
@@ -17,6 +31,6 @@ func main() {
 	routes.RegisterAuthRoutes(r)
 
 	//initialize and listen server port
-	fmt.Println("Server started at PORT 6969")
-	http.ListenAndServe(":6969", r)
+	fmt.Printf("Server is running on PORT %s\n", port)
+	http.ListenAndServe(":"+port, r)
 }
