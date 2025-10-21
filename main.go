@@ -22,7 +22,7 @@ func main() {
 	// extracting port from env
 	port := os.Getenv("PORT")
 
-	// connecting db 
+	// connecting db
 	err = config.ConnectDB()
 	if err != nil {
 		fmt.Println("DB connection error:", err)
